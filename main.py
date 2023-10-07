@@ -1,31 +1,35 @@
+import os
 import tkinter as tk
 from tkinter import filedialog
 from moviepy.editor import VideoFileClip
 
-def select_file():
-    """
-    Open a file dialog and return the selected file's path.
-    """
-    root = tk.Tk()
-    root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename()
-    return file_path
+class AudioExtractorApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
 
-def extract_audio(video_filepath, audio_filepath):
-    """
-    Extract audio from a video file and save it as an mp3 file.
+        self.title("Audio Extractor")
+        self.geometry("300x100")
 
-    Parameters:
-    - video_filepath: str, path to the input video file
-    - audio_filepath: str, path to the output audio file
-    """
-    video_clip = VideoFileClip(video_filepath)
-    audio_clip = video_clip.audio
-    audio_clip.write_audiofile(audio_filepath, codec='mp3')
-    video_clip.reader.close()
-    audio_clip.reader.close()
+        extract_button = tk.Button(self, text="Extract Audio", command=self.extract_audio)
+        extract_button.pack(pady=20)
 
-# Example usage:
-video_filepath = select_file()  # Select the video file using a file dialog
-audio_filepath = "output_audio.mp3"  # Specify the output audio file path
-extract_audio(video_filepath, audio_filepath)
+    def select_file(self):
+        file_path = filedialog.askopenfilename()
+        return file_path
+
+    def extract_audio(self):
+        video_filepath = self.select_file()
+        if video_filepath:  # Check if a file was selected
+            audio_filepath = os.path.splitext(video_filepath)[0] + "_audio.mp3"
+            self._extract_audio(video_filepath, audio_filepath)
+
+    def _extract_audio(self, video_filepath, audio_filepath):
+        video_clip = VideoFileClip(video_filepath)
+        audio_clip = video_clip.audio
+        audio_clip.write_audiofile(audio_filepath, codec='mp3')
+        video_clip.reader.close()
+        audio_clip.reader.close()
+
+if __name__ == "__main__":
+    app = AudioExtractorApp()
+    app.mainloop()
