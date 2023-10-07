@@ -1,35 +1,33 @@
-import os
 import tkinter as tk
-from tkinter import filedialog
-from moviepy.editor import VideoFileClip
+from audio_extractor import AudioExtractorApp
+from youtube_downloader import YoutubeDownloaderApp
+from audio_player import AudioPlayerApp
 
-class AudioExtractorApp(tk.Tk):
+class MainApp(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title("Audio Extractor")
-        self.geometry("300x100")
+        self.title("Main App")
+        self.geometry("300x150")
 
-        extract_button = tk.Button(self, text="Extract Audio", command=self.extract_audio)
-        extract_button.pack(pady=20)
+        extract_button = tk.Button(self, text="Extract Audio", command=self.launch_audio_extractor)
+        extract_button.pack(pady=10)
 
-    def select_file(self):
-        file_path = filedialog.askopenfilename()
-        return file_path
+        download_button = tk.Button(self, text="Download Video", command=self.launch_youtube_downloader)
+        download_button.pack(pady=10)
 
-    def extract_audio(self):
-        video_filepath = self.select_file()
-        if video_filepath:  # Check if a file was selected
-            audio_filepath = os.path.splitext(video_filepath)[0] + "_audio.mp3"
-            self._extract_audio(video_filepath, audio_filepath)
+        player_button = tk.Button(self, text="Play Audio", command=self.launch_audio_player)
+        player_button.pack(pady=10)
 
-    def _extract_audio(self, video_filepath, audio_filepath):
-        video_clip = VideoFileClip(video_filepath)
-        audio_clip = video_clip.audio
-        audio_clip.write_audiofile(audio_filepath, codec='mp3')
-        video_clip.reader.close()
-        audio_clip.reader.close()
+    def launch_audio_extractor(self):
+        AudioExtractorApp().mainloop()
+
+    def launch_youtube_downloader(self):
+        YoutubeDownloaderApp().mainloop()
+
+    def launch_audio_player(self):
+        AudioPlayerApp().mainloop()
 
 if __name__ == "__main__":
-    app = AudioExtractorApp()
+    app = MainApp()
     app.mainloop()
