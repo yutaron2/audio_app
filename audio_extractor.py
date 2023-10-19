@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from moviepy.editor import VideoFileClip
+from moviepy.video.io.VideoFileClip import VideoFileClip
 from helpers.file_selector import FileSelector
 
 class AudioExtractorApp(tk.Tk):
