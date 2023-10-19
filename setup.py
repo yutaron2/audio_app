@@ -1,7 +1,7 @@
 from cx_Freeze import setup, Executable
 
 build_exe_options = {
-    "packages": ["os", "tkinter", "pytube"],  # "pytube" を追加
+    "packages": ["os", "tkinter", "pytube", "threading", "traceback"],  # "pytube" を追加
     "excludes": ["tkinter.ttk", "tkinter.tix", "tkinter.scrolledtext"],
     "include_files": ["audio_extractor.py", "youtube_downloader.py", "audio_player.py", "helpers/"]
 }
