@@ -16,7 +16,10 @@ class AudioExtractorApp(tk.Tk):
     def extract_audio(self):
         video_filepath = FileSelector().select_file()
         if video_filepath:  # Check if a file was selected
-            audio_filepath = os.path.splitext(video_filepath)[0] + "_audio.mp3"
+            # Macのダウンロードディレクトリのパスを取得
+            download_directory = os.path.expanduser('~/Downloads')
+            audio_filename = os.path.splitext(os.path.basename(video_filepath))[0] + "_audio.mp3"
+            audio_filepath = os.path.join(download_directory, audio_filename)
             self._extract_audio(video_filepath, audio_filepath)
 
     def _extract_audio(self, video_filepath, audio_filepath):
